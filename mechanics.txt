@@ -24,7 +24,6 @@ Items:
     Potions:
         Healing potion
         Stamina potion
-        Mana potion
         Berserk potion
         Poison (meta-item, corrosive)
 
