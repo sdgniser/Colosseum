@@ -36,7 +36,7 @@ class Player:
             self.health,
             self.stamina,
             self.status_effects,
-            self.items[0],
+            self.items[0], # The main weapon
         ]
 
 

@@ -60,4 +60,7 @@ DSV: Front-end Pygame
 Roshan: Classes for game state and actions
 Abhijeet:  Implement turns
 Vaibhav: Balancing, User bot integration and verification
+    3 classes: Tank, Mage, Assassin
+    Buff heavy skills
+    implementing speed
 Saturday(?)
