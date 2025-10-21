@@ -1,0 +1,273 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+\geometry{a4paper, margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+% Define colors for code highlighting
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% Header formatting
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{NPC Colosseum Bot Programming}
+\lhead{\leftmark}
+\rfoot{Page \thepage}
+
+\title{\Huge\textbf{NPC Colosseum Bot Programming Manual}}
+\author{DeepSeek}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\textit{Create intelligent bots to battle in the arena!}
+\end{center}
+
+\vspace{2em}
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+\label{sec:introduction}
+
+Welcome to the NPC Colosseum Bot Programming Guide! This document will help you understand how to create your own AI bots to battle in the arena. In NPC Colosseum, you can program bots that control characters during AI vs AI matches. Your bot will receive game state information and must return valid actions to compete against other bots.
+
+\section{Bot Function Structure}
+\label{sec:bot-structure}
+
+Your bot must be implemented as a Python function with the following signature:
+
+\begin{lstlisting}[language=Python, caption=Bot Function Signature]
+def get_player_bot_action(current_game_state, game_archive):
+    # Your bot logic here
+    return "Valid Action String"
+\end{lstlisting}
+
+\subsection{Parameters}
+\begin{itemize}
+    \item \texttt{current\_game\_state}: A dictionary containing the current state of the game
+    \item \texttt{game\_archive}: A list of all previous game states (for analyzing game history)
+\end{itemize}
+
+\subsection{Return Value}
+Your function must return a string representing a valid action.
+
+\section{Game State Structure}
+\label{sec:game-state}
+
+The \texttt{current\_game\_state} dictionary contains:
+
+\begin{lstlisting}[language=Python, caption=Game State Structure]
+{
+    "player": {
+        "hp": current_health_points,
+        "max_hp": maximum_health_points,
+        "skill_points": current_skill_points,
+        "character_class": "Warrior"  # or "Mage" or "Rogue"
+    },
+    "opponent": {
+        "hp": current_health_points,
+        "max_hp": maximum_health_points,
+        "skill_points": current_skill_points,
+        "character_class": "Warrior"  # or "Mage" or "Rogue"
+    },
+    "inventory": {
+        "Potion": count,
+        "Ether": count,
+        "Bomb": count,
+        "Elixir": count
+    }
+}
+\end{lstlisting}
+
+\section{Actions Reference}
+\label{sec:actions}
+
+\subsection{Basic Actions}
+\begin{itemize}
+    \item \texttt{"Attack"} - Perform a basic attack
+    \item \texttt{"Defend"} - Defend against the next attack
+\end{itemize}
+
+\subsection{Item Actions}
+\begin{itemize}
+    \item \texttt{"Use Potion"} - Heal 30 HP
+    \item \texttt{"Use Ether"} - Heal 15 HP  
+    \item \texttt{"Use Bomb"} - Deal 40 damage
+    \item \texttt{"Use Elixir"} - Fully restore HP
+\end{itemize}
+
+\subsection{Class-Specific Skills}
+\label{subsec:skills}
+
+\subsubsection{Warrior Skills}
+\begin{itemize}
+    \item \texttt{"Cast Power Strike"} - Heavy weapon attack (30-40 damage, 3 SP)
+    \item \texttt{"Cast Shield Bash"} - Stuns and damages (20-30 damage, 2 SP)
+    \item \texttt{"Cast Battle Cry"} - Heals and boosts morale (15-25 heal, 3 SP)
+    \item \texttt{"Cast Whirlwind"} - Hits all enemies (25-35 damage, 4 SP)
+\end{itemize}
+
+\subsubsection{Mage Skills}
+\begin{itemize}
+    \item \texttt{"Cast Fireball"} - High damage fire spell (35-45 damage, 5 SP)
+    \item \texttt{"Cast Ice Shard"} - Freezing damage (25-35 damage, 3 SP)
+    \item \texttt{"Cast Arcane Heal"} - Powerful healing (30-40 heal, 4 SP)
+    \item \texttt{"Cast Lightning Bolt"} - Massive lightning damage (40-50 damage, 6 SP)
+\end{itemize}
+
+\subsubsection{Rogue Skills}
+\begin{itemize}
+    \item \texttt{"Cast Backstab"} - High damage from behind (35-45 damage, 4 SP)
+    \item \texttt{"Cast Poison Dart"} - Damage over time (0-10 damage + poison, 3 SP)
+    \item \texttt{"Cast Shadow Dodge"} - Evade next attack (100 defense for 1 turn, 3 SP)
+    \item \texttt{"Cast Quick Strike"} - Fast, low cost attack (25-35 damage, 2 SP)
+\end{itemize}
+
+\section{Character Classes}
+\label{sec:character-classes}
+
+\subsection{Warrior}
+\begin{itemize}
+    \item \textbf{Max HP}: 120
+    \item \textbf{Basic Attack}: 18-25 damage
+    \item \textbf{Skill Points}: 4
+    \item \textbf{Defense}: 15
+    \item \textbf{Starting Inventory}: 4 Potions, 1 Ether, 1 Bomb
+\end{itemize}
+
+\subsection{Mage}
+\begin{itemize}
+    \item \textbf{Max HP}: 80
+    \item \textbf{Basic Attack}: 10-16 damage
+    \item \textbf{Skill Points}: 8
+    \item \textbf{Defense}: 25
+    \item \textbf{Starting Inventory}: 2 Potions, 3 Ether, 2 Bombs, 1 Elixir
+\end{itemize}
+
+\subsection{Rogue}
+\begin{itemize}
+    \item \textbf{Max HP}: 100
+    \item \textbf{Basic Attack}: 15-22 damage
+    \item \textbf{Skill Points}: 6
+    \item \textbf{Defense}: 40
+    \item \textbf{Starting Inventory}: 3 Potions, 2 Ether, 3 Bombs
+\end{itemize}
+
+\section{Inventory Items}
+\label{sec:inventory}
+
+\begin{itemize}
+    \item \textbf{Potion}: Heals 30 HP
+    \item \textbf{Ether}: Heals 15 HP
+    \item \textbf{Bomb}: Deals 40 damage
+    \item \textbf{Elixir}: Fully restores HP (rare)
+\end{itemize}
+
+\section{Strategy Guide}
+\label{sec:strategy}
+
+\subsection{General Tips}
+\begin{enumerate}
+    \item \textbf{Monitor Health}: Use healing items when HP drops below 40
+    \item \textbf{Manage Skill Points}: Basic attacks restore SP for some classes
+    \item \textbf{Class Synergy}: Choose actions that complement your class strengths
+    \item \textbf{Opponent Awareness}: Consider the opponent's class and health when choosing actions
+    \item \textbf{Resource Management}: Don't waste powerful items or skills unnecessarily
+\end{enumerate}
+
+\subsection{Class-Specific Strategies}
+\begin{itemize}
+    \item \textbf{Warrior}: Use high-damage skills and defend to build skill points
+    \item \textbf{Mage}: Manage skill points carefully and use powerful spells strategically
+    \item \textbf{Rogue}: Use evasion and poison effects to control the battle
+\end{itemize}
+
+\section{Example Bot}
+\label{sec:example}
+
+Here's the simple bot provided in the game:
+
+\begin{lstlisting}[language=Python, caption=Example Bot Implementation]
+import random
+
+def get_player_bot_action(current_game_state, game_archive):
+    player_hp = current_game_state['player']['hp']
+    inventory = current_game_state['inventory']
+    
+    # If HP is low and has a Potion, heal
+    if player_hp < 40 and inventory.get("Potion", 0) > 0:
+        return "Use Potion"
+    
+    # If opponent is low HP and we have a bomb, finish them!
+    if current_game_state['opponent']['hp'] < 45 and inventory.get("Bomb", 0) > 0:
+        return "Use Bomb"
+        
+    # Otherwise, cast a powerful spell or just attack
+    if random.random() < 0.5: # 50% chance to cast Fireball
+        return "Cast Fireball"
+    else:
+        return "Attack"
+\end{lstlisting}
+
+\section{Testing Your Bot}
+\label{sec:testing}
+
+\begin{enumerate}
+    \item Replace the \texttt{get\_player\_bot\_action} function in \texttt{bots.py} with your implementation
+    \item Run the game and select "AI vs AI" mode
+    \item Watch how your bot performs against the default opponent bot
+    \item Iterate and improve your strategy!
+\end{enumerate}
+
+\section{Troubleshooting}
+\label{sec:troubleshooting}
+
+\begin{itemize}
+    \item \textbf{Invalid Action}: Make sure your bot returns exactly the action strings shown in this manual
+    \item \textbf{Skill Points}: Check that you have enough skill points before using skills
+    \item \textbf{Inventory}: Verify item counts before trying to use items
+    \item \textbf{Class Skills}: Remember that skills are class-specific
+\end{itemize}
+
+\begin{center}
+\Large\textbf{Happy coding and may the best bot win!}
+\end{center}
+
+\end{document}
