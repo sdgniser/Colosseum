@@ -81,9 +81,6 @@ class Character:
                 del self.status_effects["Poison"]
             return stacks
         return 0
-    
-    def apply_status(self, effect_name, duration):
-        self.status_effects[effect_name] = duration
 
     def update_status_effects(self):
         expired = []
@@ -161,6 +158,7 @@ class GameEngine:
         self.character_presets = CHARACTER_PRESETS
         self.class_skills = CLASS_SKILLS
         self.setup_new_game()
+        self.action_string = ""
 
     def setup_new_game(self):
         # Default characters if no selection made
@@ -284,7 +282,7 @@ class GameEngine:
         if "Poison" in current_actor.status_effects:
             poison_stacks = current_actor.process_poison()
             if poison_stacks > 0:
-                poison_message = f"{current_actor.name} takes {7 * poison_stacks} poison damage!"
+                poison_message = f"{current_actor.name} takes {5 * poison_stacks} poison damage!"
 
         # Update other status effects (but NOT poison, which is handled above)
         # If you add more status effects, update them here:
@@ -342,7 +340,6 @@ class GameEngine:
         if self.player_turn:
             self.turn_number += 1
             game_state = self._get_current_game_state_for_bot()
-            self.game_archive.append(deepcopy(game_state))
             inventory_manager = self.player_inventory
             skills = self.player_skills
             action_string = player_action if self.mode == "pve" else get_player_bot_action(game_state, self.game_archive)
@@ -351,7 +348,10 @@ class GameEngine:
             inventory_manager = self.opponent_inventory
             skills = self.opponent_skills
             action_string = get_opponent_bot_action(game_state, self.game_archive)
+
+        self.action_string = action_string
         
+        turn = deepcopy(game_state)
         result_message = self._process_action(current_actor, current_target, inventory_manager, skills, action_string)
         # Check for insufficient SP message
         if self.player_turn and result_message.startswith("Not enough skill points"):
@@ -359,6 +359,9 @@ class GameEngine:
             return
 
         self.action_message = (poison_message + "\n" if poison_message else "") + result_message
+
+        turn['action'] = [self.action_string, self.action_message]
+        self.game_archive.append(turn)
         
         if self.player_turn and action_string:
             self.pve_menu_state = 'main'

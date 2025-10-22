@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
+\usepackage{amsmath}
 
 \geometry{a4paper, margin=1in}
 \setlength{\parindent}{0pt}
@@ -82,7 +83,7 @@ def get_player_bot_action(current_game_state, game_archive):
 \subsection{Parameters}
 \begin{itemize}
     \item \texttt{current\_game\_state}: A dictionary containing the current state of the game
-    \item \texttt{game\_archive}: Stores a chronological list of snapshots containing both characters' health, skill points, classes, and the player's inventory at the start of each player turn.
+    \item \texttt{game\_archive}: A list containing the complete history of all turns played so far, including actions taken and their results
 \end{itemize}
 
 \subsection{Return Value}
@@ -115,6 +116,74 @@ The \texttt{current\_game\_state} dictionary contains:
     }
 }
 \end{lstlisting}
+
+\section{Game Archive Structure}
+\label{sec:game-archive}
+
+The \texttt{game\_archive} parameter provides a complete history of the battle, containing every turn played so far. This is extremely valuable for creating intelligent bots that can learn from past actions and adapt their strategies.
+
+\subsection{Archive Structure}
+Each entry in the \texttt{game\_archive} list has the following structure:
+
+\begin{lstlisting}[language=Python, caption=Game Archive Entry Structure]
+{
+    "player": {
+        "hp": player_health_at_turn_start,
+        "max_hp": player_max_health,
+        "skill_points": player_sp_at_turn_start,
+        "character_class": "Warrior"
+    },
+    "opponent": {
+        "hp": opponent_health_at_turn_start,
+        "max_hp": opponent_max_health,
+        "skill_points": opponent_sp_at_turn_start,
+        "character_class": "Mage"
+    },
+    "inventory": {
+        "Potion": count_at_turn_start,
+        "Ether": count_at_turn_start,
+        "Bomb": count_at_turn_start,
+        "Elixir": count_at_turn_start
+    },
+    "action": ["action_taken", "result_message"]
+}
+\end{lstlisting}
+
+\subsection{Using the Game Archive}
+The archive allows your bot to analyze battle patterns and make strategic decisions:
+
+\begin{lstlisting}[language=Python, caption=Example Archive Usage]
+def get_player_bot_action(current_game_state, game_archive):
+    # Analyze opponent's behavior patterns
+    if len(game_archive) > 0:
+        last_turn = game_archive[-1]
+        last_action = last_turn["action"][0]
+        last_result = last_turn["action"][1]
+        
+        # Check if opponent frequently uses certain skills
+        skill_usage = {}
+        for turn in game_archive:
+            action = turn["action"][0]
+            if action.startswith("Cast "):
+                skill = action[5:]  # Remove "Cast " prefix
+                skill_usage[skill] = skill_usage.get(skill, 0) + 1
+        
+        # Counter opponent's most used skill
+        if skill_usage:
+            most_used_skill = max(skill_usage, key=skill_usage.get)
+            # Implement counter strategy...
+    
+    # Your main bot logic here...
+    return "Attack"
+\end{lstlisting}
+
+\subsection{Archive Analysis Strategies}
+\begin{itemize}
+    \item \textbf{Pattern Recognition}: Identify which skills/items your opponent uses most frequently
+    \item \textbf{Health Trends}: Track how quickly each character's health is decreasing
+    \item \textbf{Resource Management}: Monitor skill point usage and regeneration patterns
+    \item \textbf{Timing Analysis}: Determine when opponents use healing items or defensive skills
+\end{itemize}
 
 \section{Actions Reference}
 \label{sec:actions}
@@ -220,21 +289,63 @@ The \texttt{current\_game\_state} dictionary contains:
 \end{itemize}
 
 \subsection{Skill Points}
-Skill points (SP) are utilized to cast skills which are unique to every class. There methods of regeneration of skill points for each class is as follows:
+Skill points (SP) are utilized to cast skills which are unique to every class. The methods of regeneration of skill points for each class is as follows:
 \begin{itemize}
     \item \textbf{Warrior}: Using "Defend" during a turn regenerates 1 SP.
     \item \textbf{Mage}: Using "Attack" during a turn regenerates 2 SP.
     \item \textbf{Rogue}: Using "Attack" during a turn regenerates 1 SP.
 \end{itemize}
 
-\subsection{Defense}
-The stat "Defense" is different from the action "Defend", do be mindful of this. The action "Defend" decreases the amount of damage taken by the character upon recieving damage during the opponent's turn. The stat "Defense" refers to the probability of a character to dodge an attack, recieving no damage from it. The stat is unique to each class and goes as follows:
+\subsection{Defense and Dodging}
+The stat "Defense" is different from the action "Defend". The action "Defend" decreases the amount of damage taken by the character upon receiving damage during the opponent's turn. The stat "Defense" refers to the probability of a character to dodge an attack, receiving no damage from it. The stat is unique to each class and goes as follows:
 \begin{itemize}
     \item \textbf{Warrior}: 15
     \item \textbf{Mage}: 25
     \item \textbf{Rogue}: 40
 \end{itemize}
 The probability of dodging an attack is $$\frac{\text{Defense}}{100}$$.
+
+\subsection{Status Effects}
+\begin{itemize}
+    \item \textbf{Poison}: Applied by Rogue's "Poison Dart". Deals 5 damage per stack at the start of each turn, then reduces stacks by 1.
+    \item \textbf{Shadow Dodge}: Applied by Rogue's "Shadow Dodge" skill. Sets defense to 100 for 1 turn, guaranteeing dodges.
+\end{itemize}
+
+\section{Advanced Bot Strategies}
+\label{sec:advanced}
+
+\subsection{Using the Game Archive for Machine Learning}
+\begin{lstlisting}[language=Python, caption=Advanced Archive Analysis]
+def get_player_bot_action(current_game_state, game_archive):
+    # Calculate damage per turn
+    if len(game_archive) >= 2:
+        current_hp = current_game_state['opponent']['hp']
+        two_turns_ago = game_archive[-2]['opponent']['hp']
+        damage_taken = two_turns_ago - current_hp
+        # Adjust strategy based on damage output
+    
+    # Predict opponent's next move
+    opponent_class = current_game_state['opponent']['character_class']
+    opponent_skills = CLASS_SKILLS[opponent_class]
+    
+    # Check if opponent is low on skill points
+    opponent_sp = current_game_state['opponent']['skill_points']
+    likely_actions = []
+    
+    if opponent_sp < 3:
+        likely_actions.extend(["Attack", "Defend"])
+    else:
+        # Add skills they can afford
+        for skill, data in opponent_skills.items():
+            if data.get("cost", 0) <= opponent_sp:
+                likely_actions.append(f"Cast {skill}")
+    
+    # Counter the most likely actions
+    if "Cast Fireball" in likely_actions and current_game_state['player']['hp'] < 50:
+        return "Defend"  # Defend against big attacks when low HP
+    
+    return "Attack"  # Default action
+\end{lstlisting}
 
 \section{Example Bot}
 \label{sec:example}
@@ -270,7 +381,8 @@ def get_player_bot_action(current_game_state, game_archive):
     \item Replace the \texttt{get\_player\_bot\_action} function in \texttt{bots.py} with your implementation
     \item Run the game and select "AI vs AI" mode
     \item Watch how your bot performs against the default opponent bot
-    \item Iterate and improve your strategy!
+    \item Use the game archive analysis to debug and improve your strategy
+    \item Iterate and improve your bot based on performance!
 \end{enumerate}
 
 \section{Troubleshooting}
@@ -281,6 +393,8 @@ def get_player_bot_action(current_game_state, game_archive):
     \item \textbf{Skill Points}: Check that you have enough skill points before using skills
     \item \textbf{Inventory}: Verify item counts before trying to use items
     \item \textbf{Class Skills}: Remember that skills are class-specific
+    \item \textbf{Game Archive}: Ensure you're accessing the archive correctly - it contains complete turn history
+    \item \textbf{Performance}: If your bot is too slow, consider limiting how much archive history you analyze
 \end{itemize}
 
 \begin{center}
