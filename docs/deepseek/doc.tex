@@ -82,7 +82,7 @@ def get_player_bot_action(current_game_state, game_archive):
 \subsection{Parameters}
 \begin{itemize}
     \item \texttt{current\_game\_state}: A dictionary containing the current state of the game
-    \item \texttt{game\_archive}: A list of all previous game states (for analyzing game history)
+    \item \texttt{game\_archive}: Stores a chronological list of snapshots containing both characters' health, skill points, classes, and the player's inventory at the start of each player turn.
 \end{itemize}
 
 \subsection{Return Value}
@@ -218,6 +218,23 @@ The \texttt{current\_game\_state} dictionary contains:
     \item \textbf{Mage}: Manage skill points carefully and use powerful spells strategically
     \item \textbf{Rogue}: Use evasion and poison effects to control the battle
 \end{itemize}
+
+\subsection{Skill Points}
+Skill points (SP) are utilized to cast skills which are unique to every class. There methods of regeneration of skill points for each class is as follows:
+\begin{itemize}
+    \item \textbf{Warrior}: Using "Defend" during a turn regenerates 1 SP.
+    \item \textbf{Mage}: Using "Attack" during a turn regenerates 2 SP.
+    \item \textbf{Rogue}: Using "Attack" during a turn regenerates 1 SP.
+\end{itemize}
+
+\subsection{Defense}
+The stat "Defense" is different from the action "Defend", do be mindful of this. The action "Defend" decreases the amount of damage taken by the character upon recieving damage during the opponent's turn. The stat "Defense" refers to the probability of a character to dodge an attack, recieving no damage from it. The stat is unique to each class and goes as follows:
+\begin{itemize}
+    \item \textbf{Warrior}: 15
+    \item \textbf{Mage}: 25
+    \item \textbf{Rogue}: 40
+\end{itemize}
+The probability of dodging an attack is $$\frac{\text{Defense}}{100}$$.
 
 \section{Example Bot}
 \label{sec:example}
