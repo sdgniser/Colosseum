@@ -1,6 +1,8 @@
 import random
 from copy import deepcopy
-from bots import get_player_bot_action, get_opponent_bot_action
+#from bots import get_player_bot_action, get_opponent_bot_action
+from player1 import get_bot_action as get_player_bot_action
+from player2 import get_bot_action as get_opponent_bot_action
 from character_presets import CHARACTER_PRESETS, CLASS_SKILLS
 from inventory_presets import BASE_INVENTORY, CLASS_STARTING_INVENTORY
 

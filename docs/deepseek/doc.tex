@@ -69,13 +69,18 @@
 
 Welcome to the NPC Colosseum Bot Programming Guide! This document will help you understand how to create your own AI bots to battle in the arena. In NPC Colosseum, you can program bots that control characters during AI vs AI matches. Your bot will receive game state information and must return valid actions to compete against other bots.
 
+\section{Accessing the code}
+We should have given you an IP address and port at the beginning of the event. \texttt{ssh} into that address. The code for the game should already be there.
+You can either use \texttt{scp} to copy your bot's code to the same place as the game, or you can create a file there and copy-paste the contents.
+Note that you won't be able to see the code that runs the game, that is intentional. But you will still be able to run the game using
+`\texttt{python main.py}'
 \section{Bot Function Structure}
 \label{sec:bot-structure}
 
 Your bot must be implemented as a Python function with the following signature:
 
 \begin{lstlisting}[language=Python, caption=Bot Function Signature]
-def get_player_bot_action(current_game_state, game_archive):
+def get_bot_action(current_game_state, game_archive):
     # Your bot logic here
     return "Valid Action String"
 \end{lstlisting}
@@ -88,6 +93,21 @@ def get_player_bot_action(current_game_state, game_archive):
 
 \subsection{Return Value}
 Your function must return a string representing a valid action.
+
+\subsection{Class selection}
+You must also implement a class selection function \texttt{get\_bot\_class}
+
+\begin{lstlisting}[language=Python, caption=Bot Function Signature]
+def get_bot_class():
+    return class
+\end{lstlisting}
+
+Class is a number between 0 and 2. 
+\begin{itemize}
+    \item 0: Warrior
+    \item 1: Mage
+    \item 2: Rogue
+\end{itemize}
 
 \section{Game State Structure}
 \label{sec:game-state}
@@ -149,33 +169,33 @@ Each entry in the \texttt{game\_archive} list has the following structure:
 }
 \end{lstlisting}
 
-\subsection{Using the Game Archive}
-The archive allows your bot to analyze battle patterns and make strategic decisions:
-
-\begin{lstlisting}[language=Python, caption=Example Archive Usage]
-def get_player_bot_action(current_game_state, game_archive):
-    # Analyze opponent's behavior patterns
-    if len(game_archive) > 0:
-        last_turn = game_archive[-1]
-        last_action = last_turn["action"][0]
-        last_result = last_turn["action"][1]
-        
-        # Check if opponent frequently uses certain skills
-        skill_usage = {}
-        for turn in game_archive:
-            action = turn["action"][0]
-            if action.startswith("Cast "):
-                skill = action[5:]  # Remove "Cast " prefix
-                skill_usage[skill] = skill_usage.get(skill, 0) + 1
-        
-        # Counter opponent's most used skill
-        if skill_usage:
-            most_used_skill = max(skill_usage, key=skill_usage.get)
-            # Implement counter strategy...
-    
-    # Your main bot logic here...
-    return "Attack"
-\end{lstlisting}
+ \subsection{Using the Game Archive}
+% The archive allows your bot to analyze battle patterns and make strategic decisions:
+% 
+% \begin{lstlisting}[language=Python, caption=Example Archive Usage]
+% def get_bot_action(current_game_state, game_archive):
+%     # Analyze opponent's behavior patterns
+%     if len(game_archive) > 0:
+%         last_turn = game_archive[-1]
+%         last_action = last_turn["action"][0]
+%         last_result = last_turn["action"][1]
+%         
+%         # Check if opponent frequently uses certain skills
+%         skill_usage = {}
+%         for turn in game_archive:
+%             action = turn["action"][0]
+%             if action.startswith("Cast "):
+%                 skill = action[5:]  # Remove "Cast " prefix
+%                 skill_usage[skill] = skill_usage.get(skill, 0) + 1
+%         
+%         # Counter opponent's most used skill
+%         if skill_usage:
+%             most_used_skill = max(skill_usage, key=skill_usage.get)
+%             # Implement counter strategy...
+%     
+%     # Your main bot logic here...
+%     return "Attack"
+% \end{lstlisting}
 
 \subsection{Archive Analysis Strategies}
 \begin{itemize}
@@ -303,7 +323,7 @@ The stat "Defense" is different from the action "Defend". The action "Defend" de
     \item \textbf{Mage}: 25
     \item \textbf{Rogue}: 40
 \end{itemize}
-The probability of dodging an attack is $$\frac{\text{Defense}}{100}$$.
+The probability of dodging an attack is $\frac{\text{Defense}}{100}$.
 
 \subsection{Status Effects}
 \begin{itemize}
@@ -316,7 +336,7 @@ The probability of dodging an attack is $$\frac{\text{Defense}}{100}$$.
 
 \subsection{Using the Game Archive for Machine Learning}
 \begin{lstlisting}[language=Python, caption=Advanced Archive Analysis]
-def get_player_bot_action(current_game_state, game_archive):
+def get_bot_action(current_game_state, game_archive):
     # Calculate damage per turn
     if len(game_archive) >= 2:
         current_hp = current_game_state['opponent']['hp']
@@ -355,7 +375,7 @@ Here's the simple bot provided in the game:
 \begin{lstlisting}[language=Python, caption=Example Bot Implementation]
 import random
 
-def get_player_bot_action(current_game_state, game_archive):
+def get_bot_action(current_game_state, game_archive):
     player_hp = current_game_state['player']['hp']
     inventory = current_game_state['inventory']
     
@@ -378,7 +398,7 @@ def get_player_bot_action(current_game_state, game_archive):
 \label{sec:testing}
 
 \begin{enumerate}
-    \item Replace the \texttt{get\_player\_bot\_action} function in \texttt{bots.py} with your implementation
+    \item Replace the \texttt{get\_bot\_action} function in \texttt{player1.py} or \texttt{player2.py} with your implementation
     \item Run the game and select "AI vs AI" mode
     \item Watch how your bot performs against the default opponent bot
     \item Use the game archive analysis to debug and improve your strategy

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2025.9.20)  22 OCT 2025 18:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2025.9.20)  24 OCT 2025 03:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -474,7 +474,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 77.
+nput line 82.
 
 
 
@@ -562,26 +562,27 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `doc.out' has not changed.
-(rerunfilecheck)             Checksum: A78C30499F7E1373F965FD54C60797FD;4412.
+(rerunfilecheck)             Checksum: C6DC9D07E008A26D9FB1EC6452515BF3;4514.
  ) 
 Here is how much of TeX's memory you used:
- 12854 strings out of 475171
- 192045 string characters out of 5767095
- 1003944 words of memory out of 5000000
- 35540 multiletter control sequences out of 15000+600000
+ 12828 strings out of 475171
+ 191682 string characters out of 5767095
+ 1003610 words of memory out of 5000000
+ 35533 multiletter control sequences out of 15000+600000
  566757 words of font info for 64 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 75i,12n,79p,373b,2026s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,79p,373b,2024s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/font
 s/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
-t10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/
-share/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on doc.pdf (11 pages, 124246 bytes).
+msfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti1
+2.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/sh
+are/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf-dist
+/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on doc.pdf (11 pages, 131828 bytes).
 PDF statistics:
- 419 PDF objects out of 1000 (max. 8388607)
- 388 compressed objects within 4 object streams
- 174 named destinations out of 1000 (max. 500000)
- 257 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 406 PDF objects out of 1000 (max. 8388607)
+ 373 compressed objects within 4 object streams
+ 155 named destinations out of 1000 (max. 500000)
+ 265 words of extra memory for PDF output out of 10000 (max. 10000000)
 

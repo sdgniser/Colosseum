@@ -1,8 +1,11 @@
 import pygame
 import time
+from sys import argv
 from game_engine import GameEngine
 from renderer import Renderer
 from character_presets import CHARACTER_PRESETS
+from player1 import get_bot_class as get_player_bot_class
+from player2 import get_bot_class as get_opponent_bot_class
 
 # --- Constants ---
 SCREEN_WIDTH = 800
@@ -48,8 +51,15 @@ def run_game():
                         engine.mode = 'select_character'
                     elif event.key == pygame.K_2:
                         # AI vs AI mode - set default characters
-                        engine.set_player_character(0)  # Warrior
-                        engine.set_opponent_character(1)  # Mage
+                        player_class_num = get_player_bot_class()
+                        opponent_class_num = get_opponent_bot_class()
+                        if player_class_num not in range(3):
+                            raise ValueError(f"Improper Class value of '{player_class_num}' for player 1")
+                        if opponent_class_num not in range(3):
+                            raise ValueError(f"Improper Class value of '{opponent_class_num}' for player 2")
+
+                        engine.set_player_character(player_class_num)
+                        engine.set_opponent_character(opponent_class_num)
                         engine.reset(mode="aivai")
                     elif event.key == pygame.K_3:
                         mode = 'pvp_select_character'
@@ -67,9 +77,11 @@ def run_game():
                     elif event.key == pygame.K_RETURN:
                         # Set player character and reset game
                         engine.set_player_character(selected_character_idx)
-                        # Set opponent to a different character
-                        opponent_idx = (selected_character_idx + 1) % len(CHARACTER_PRESETS)
-                        engine.set_opponent_character(opponent_idx)
+
+                        opponent_class_num = get_opponent_bot_class()
+                        if opponent_class_num not in range(3):
+                            raise ValueError(f"Improper Class value of '{opponent_class_num}' for player 2")
+                        engine.set_opponent_character(opponent_class_num)
                         engine.reset(mode="pve")
                         mode = 'pve'
                         engine.mode = 'pve'
