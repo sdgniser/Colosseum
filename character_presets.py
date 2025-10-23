@@ -1,7 +1,7 @@
 CHARACTER_PRESETS = [
     {
         "name": "Warrior",
-        "max_hp": 120,
+        "max_hp": 120*2,
         "basic_attack_damage": (18, 25),
         "color": (200, 100, 50),
         "skill_points": 4,
@@ -9,7 +9,7 @@ CHARACTER_PRESETS = [
     },
     {
         "name": "Mage",
-        "max_hp": 80,
+        "max_hp": 80*2,
         "basic_attack_damage": (10, 16),
         "color": (100, 50, 200),
         "skill_points": 8,
@@ -17,7 +17,7 @@ CHARACTER_PRESETS = [
     },
     {
         "name": "Rogue",
-        "max_hp": 100,
+        "max_hp": 100*2,
         "basic_attack_damage": (15, 22),
         "color": (150, 150, 150),
         "skill_points": 6,
