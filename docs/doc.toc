@@ -1,33 +1,34 @@
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
-\contentsline {section}{\numberline {2}Bot Function Structure}{3}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Parameters}{3}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Return Value}{3}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Class selection}{3}{subsection.2.3}%
-\contentsline {section}{\numberline {3}Game State Structure}{4}{section.3}%
-\contentsline {section}{\numberline {4}Game Archive Structure}{4}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Archive Structure}{4}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Using the Game Archive}{5}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Archive Analysis Strategies}{5}{subsection.4.3}%
-\contentsline {section}{\numberline {5}Actions Reference}{5}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Basic Actions}{5}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Item Actions}{5}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Class-Specific Skills}{6}{subsection.5.3}%
-\contentsline {subsubsection}{\numberline {5.3.1}Warrior Skills}{6}{subsubsection.5.3.1}%
-\contentsline {subsubsection}{\numberline {5.3.2}Mage Skills}{6}{subsubsection.5.3.2}%
-\contentsline {subsubsection}{\numberline {5.3.3}Rogue Skills}{6}{subsubsection.5.3.3}%
-\contentsline {section}{\numberline {6}Character Classes}{6}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Warrior}{6}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Mage}{7}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Rogue}{7}{subsection.6.3}%
-\contentsline {section}{\numberline {7}Inventory Items}{7}{section.7}%
-\contentsline {section}{\numberline {8}Strategy Guide}{7}{section.8}%
-\contentsline {subsection}{\numberline {8.1}General Tips}{7}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}Class-Specific Strategies}{8}{subsection.8.2}%
-\contentsline {subsection}{\numberline {8.3}Skill Points}{8}{subsection.8.3}%
-\contentsline {subsection}{\numberline {8.4}Defense and Dodging}{8}{subsection.8.4}%
-\contentsline {subsection}{\numberline {8.5}Status Effects}{8}{subsection.8.5}%
-\contentsline {section}{\numberline {9}Advanced Bot Strategies}{9}{section.9}%
-\contentsline {subsection}{\numberline {9.1}Using the Game Archive for Machine Learning}{9}{subsection.9.1}%
-\contentsline {section}{\numberline {10}Example Bot}{9}{section.10}%
-\contentsline {section}{\numberline {11}Testing Your Bot}{10}{section.11}%
-\contentsline {section}{\numberline {12}Troubleshooting}{10}{section.12}%
+\contentsline {section}{\numberline {2}Installing dependencies}{3}{section.2}%
+\contentsline {section}{\numberline {3}Bot Function Structure}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Parameters}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Return Value}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Class selection}{3}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Game State Structure}{4}{section.4}%
+\contentsline {section}{\numberline {5}Game Archive Structure}{4}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Archive Structure}{5}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Using the Game Archive}{5}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Archive Analysis Strategies}{5}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Actions Reference}{5}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Basic Actions}{5}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Item Actions}{6}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Class-Specific Skills}{6}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Warrior Skills}{6}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}Mage Skills}{6}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}Rogue Skills}{6}{subsubsection.6.3.3}%
+\contentsline {section}{\numberline {7}Character Classes}{7}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Warrior}{7}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Mage}{7}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Rogue}{7}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Inventory Items}{7}{section.8}%
+\contentsline {section}{\numberline {9}Strategy Guide}{8}{section.9}%
+\contentsline {subsection}{\numberline {9.1}General Tips}{8}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Class-Specific Strategies}{8}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Skill Points}{8}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Defense and Dodging}{8}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Status Effects}{9}{subsection.9.5}%
+\contentsline {section}{\numberline {10}Advanced Bot Strategies}{9}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Using the Game Archive for Machine Learning}{9}{subsection.10.1}%
+\contentsline {section}{\numberline {11}Example Bot}{10}{section.11}%
+\contentsline {section}{\numberline {12}Testing Your Bot}{10}{section.12}%
+\contentsline {section}{\numberline {13}Troubleshooting}{10}{section.13}%
