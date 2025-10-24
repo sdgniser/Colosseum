@@ -349,7 +349,16 @@ class GameEngine:
             game_state = self._get_current_game_state_for_bot()
             inventory_manager = self.opponent_inventory
             skills = self.opponent_skills
-            action_string = get_opponent_bot_action(game_state, self.game_archive)
+            if self.mode == "aivai":
+                # Swap perspective for opponent bot
+                swapped_state = {
+                    "player": game_state["opponent"],
+                    "opponent": game_state["player"],
+                    "inventory": self.opponent_inventory.get_inventory_dict()
+                }
+                action_string = get_opponent_bot_action(swapped_state, self.game_archive)
+            else:
+                action_string = get_opponent_bot_action(game_state, self.game_archive)
 
         self.action_string = action_string
         
