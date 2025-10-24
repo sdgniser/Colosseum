@@ -1,4 +1,6 @@
 import pygame
+import os
+from character_presets import CHARACTER_PRESETS
 
 PLAYER_POS = (200, 250); OPPONENT_POS = (600, 250)
 PLAYER_COLOR = (50, 150, 255); OPPONENT_COLOR = (255, 80, 80)
@@ -22,6 +24,21 @@ class Renderer:
             pygame.Rect(self.options_box_rect.left + 20, self.options_box_rect.top + 30 + b_height, b_width, b_height),
             pygame.Rect(self.options_box_rect.left + 40 + b_width, self.options_box_rect.top + 30 + b_height, b_width, b_height)
         ]
+        # Load sprites
+        self.sprites = self._load_sprites()
+    
+    def _load_sprites(self):
+        sprites = {}
+        SPRITE_SIZE = (100, 100)  # Set desired size (width, height)
+        for preset in CHARACTER_PRESETS:
+            sprite_path = preset.get("sprite")
+            if sprite_path and os.path.exists(sprite_path):
+                img = pygame.image.load(sprite_path).convert_alpha()
+                img = pygame.transform.smoothscale(img, SPRITE_SIZE)
+                sprites[preset["name"]] = img
+            else:
+                sprites[preset["name"]] = None
+        return sprites
 
     def draw_frame(self, screen, state):
         screen.fill(LIGHT_BLUE)
@@ -54,13 +71,14 @@ class Renderer:
         pygame.draw.rect(screen, WHITE, self.battle_display_rect)
         pygame.draw.rect(screen, BLACK, self.battle_display_rect, 3)
         
-        # Draw characters with their specific colors
         player_color = state['player'].get('color', PLAYER_COLOR)
         opponent_color = state['opponent'].get('color', OPPONENT_COLOR)
+        player_class = state['player'].get('character_class', 'Warrior')
+        opponent_class = state['opponent'].get('character_class', 'Mage')
         
-        self._draw_character(screen, PLAYER_POS, player_color, False)
+        self._draw_character(screen, PLAYER_POS, player_color, False, player_class)
         self._draw_character_info(screen, state['player'], PLAYER_POS)
-        self._draw_character(screen, OPPONENT_POS, opponent_color, True)
+        self._draw_character(screen, OPPONENT_POS, opponent_color, True, opponent_class)
         self._draw_character_info(screen, state['opponent'], OPPONENT_POS)
         
         # Draw turn indicator for PvP mode
@@ -124,16 +142,27 @@ class Renderer:
         controls_surf = self.small_font.render(text, True, BLACK)
         screen.blit(controls_surf, (self.options_box_rect.left + 15, self.options_box_rect.bottom + 10))
 
-    def _draw_character(self, s, pos, color, is_square):
-        if is_square:
-            r = pygame.Rect(pos[0] - 40, pos[1] - 40, 80, 80); pygame.draw.rect(s, color, r); pygame.draw.rect(s, BLACK, r, 3)
+    def _draw_character(self, s, pos, color, is_square, character_class=None):
+        sprite = self.sprites.get(character_class)
+        if sprite:
+            # Flip player sprite horizontally (is_square == False means player)
+            if not is_square:
+                sprite = pygame.transform.flip(sprite, True, False)
+            rect = sprite.get_rect(center=pos)
+            s.blit(sprite, rect)
         else:
-            pygame.draw.circle(s, color, pos, 40); pygame.draw.circle(s, BLACK, pos, 40, 3)
+            # Fallback to shape if sprite missing
+            if is_square:
+                r = pygame.Rect(pos[0] - 40, pos[1] - 40, 80, 80); pygame.draw.rect(s, color, r); pygame.draw.rect(s, BLACK, r, 3)
+            else:
+                pygame.draw.circle(s, color, pos, 40); pygame.draw.circle(s, BLACK, pos, 40, 3)
 
     def _draw_character_info(self, screen, char_state, pos):
         text = f"{char_state['name']}: {max(0, char_state['hp'])}/{char_state['max_hp']}"
         text_surf = self.small_font.render(text, True, BLACK)
-        text_rect = text_surf.get_rect(centerx=pos[0], y=pos[1] - 85)
+        # Increase the vertical offset for the info above the sprite
+        GAP = 30  # You can adjust this value for more/less space
+        text_rect = text_surf.get_rect(centerx=pos[0], y=pos[1] - 85 - GAP)
         screen.blit(text_surf, text_rect)
         self._draw_health_bar(screen, pos[0] - 75, text_rect.bottom + 5, 150, 20, char_state['hp'], char_state['max_hp'])
 
@@ -168,10 +197,22 @@ class Renderer:
             name = preset["name"]
             hp = preset["max_hp"]
             sp = preset["skill_points"]
-            # Highlight Selected Character
-            border_color = (255, 215, 0) if i == selected_idx else BLACK
-            pygame.draw.circle(screen, color, (x, y), 40)
-            pygame.draw.circle(screen, border_color, (x, y), 44, 4)
+            sprite = self.sprites.get(name)
+            if sprite:
+                rect = sprite.get_rect(center=(x, y))
+                # Draw yellow outline if selected
+                if i == selected_idx:
+                    mask = pygame.mask.from_surface(sprite)
+                    outline_points = mask.outline()
+                    outline_surface = pygame.Surface(sprite.get_size(), pygame.SRCALPHA)
+                    for point in outline_points:
+                        # Draw the outline in yellow, slightly thicker
+                        pygame.draw.circle(outline_surface, (255, 215, 0), point, 3)
+                    # Blit the outline surface behind the sprite
+                    screen.blit(outline_surface, rect)
+                screen.blit(sprite, rect)
+            else:
+                pygame.draw.circle(screen, color, (x, y), 40)
             name_surf = self.font.render(name, True, BLACK)
             hp_surf = self.small_font.render(f"HP: {hp}", True, BLACK)
             sp_surf = self.small_font.render(f"SP: {sp}", True, BLACK)

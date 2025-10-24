@@ -5,7 +5,8 @@ CHARACTER_PRESETS = [
         "basic_attack_damage": (18, 25),
         "color": (200, 100, 50),
         "skill_points": 4,
-        "defense": 15
+        "defense": 15,
+        "sprite": "assets/warrior.png"
     },
     {
         "name": "Mage",
@@ -13,7 +14,8 @@ CHARACTER_PRESETS = [
         "basic_attack_damage": (10, 16),
         "color": (100, 50, 200),
         "skill_points": 8,
-        "defense": 25
+        "defense": 25,
+        "sprite": "assets/mage.png"
     },
     {
         "name": "Rogue",
@@ -21,7 +23,8 @@ CHARACTER_PRESETS = [
         "basic_attack_damage": (15, 22),
         "color": (150, 150, 150),
         "skill_points": 6,
-        "defense": 40
+        "defense": 40,
+        "sprite": "assets/rogue.png"
     }
 ]
 
