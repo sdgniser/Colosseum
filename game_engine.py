@@ -77,7 +77,7 @@ class Character:
         """Deal poison damage and reduce stacks by 1. Remove if 0."""
         if "Poison" in self.status_effects:
             stacks = self.status_effects["Poison"]
-            self.take_damage(5 * stacks)
+            self.take_damage(8 * stacks)
             self.status_effects["Poison"] -= 1
             if self.status_effects["Poison"] <= 0:
                 del self.status_effects["Poison"]
@@ -284,7 +284,7 @@ class GameEngine:
         if "Poison" in current_actor.status_effects:
             poison_stacks = current_actor.process_poison()
             if poison_stacks > 0:
-                poison_message = f"{current_actor.name} takes {5 * poison_stacks} poison damage!"
+                poison_message = f"{current_actor.name} takes {8 * poison_stacks} poison damage!"
 
         # Update other status effects (but NOT poison, which is handled above)
         # If you add more status effects, update them here:
@@ -541,3 +541,4 @@ class GameEngine:
         
     def is_player_turn(self): 
         return self.player_turn
+
