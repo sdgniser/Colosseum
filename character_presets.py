@@ -28,15 +28,15 @@ CHARACTER_PRESETS = [
 # Class-specific skills
 WARRIOR_SKILLS = {
     "Power Strike": {"damage": (30, 40), "cost": 3, "description": "Heavy weapon attack"},
-    "Shield Bash": {"damage": (20, 30), "cost": 2, "description": "Stuns and damages"},
-    "Battle Cry": {"heal": (15, 25), "cost": 3, "description": "Heals and boosts morale"},
+    "Shield Bash": {"damage": (20, 30), "cost": 2, "description": "Damages"},
+    "Battle Cry": {"heal": (20, 30), "cost": 3, "description": "Heals HP"},
     "Whirlwind": {"damage": (25, 35), "cost": 4, "description": "Hits all enemies"}
 }
 
 MAGE_SKILLS = {
     "Fireball": {"damage": (35, 45), "cost": 5, "description": "High damage fire spell"},
     "Ice Shard": {"damage": (25, 35), "cost": 3, "description": "Freezing damage"},
-    "Arcane Heal": {"heal": (30, 40), "cost": 4, "description": "Powerful healing"},
+    "Arcane Heal": {"heal": (35, 45), "cost": 4, "description": "Powerful healing"},
     "Lightning Bolt": {"damage": (40, 50), "cost": 6, "description": "Massive lightning damage"}
 }
 
@@ -53,3 +53,4 @@ CLASS_SKILLS = {
     "Mage": MAGE_SKILLS,
     "Rogue": ROGUE_SKILLS
 }
+
