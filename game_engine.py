@@ -145,7 +145,7 @@ class InventoryManager:
         self.items = self._get_starting_inventory(character_class)
 
 class GameEngine:
-    def __init__(self):
+    def __init__(self, get_player1_action=get_player_bot_action, get_player2_action=get_opponent_bot_action):
         self.mode = "menu"
         self.pve_menu_state = 'main'
         self.pvp_menu_state = 'main'
@@ -161,6 +161,8 @@ class GameEngine:
         self.class_skills = CLASS_SKILLS
         self.setup_new_game()
         self.action_string = ""
+        self.get_player1_action = get_player1_action
+        self.get_player2_action = get_player2_action
 
     def setup_new_game(self):
         # Default characters if no selection made
@@ -344,7 +346,10 @@ class GameEngine:
             game_state = self._get_current_game_state_for_bot()
             inventory_manager = self.player_inventory
             skills = self.player_skills
-            action_string = player_action if self.mode == "pve" else get_player_bot_action(game_state, self.game_archive)
+            try:
+                action_string = player_action if self.mode == "pve" else self.get_player1_action(game_state, self.game_archive)
+            except:
+                action_string = ""  # Skip the turn if the bot returns an error
         else:
             game_state = self._get_current_game_state_for_bot()
             inventory_manager = self.opponent_inventory
@@ -356,7 +361,10 @@ class GameEngine:
                     "opponent": game_state["player"],
                     "inventory": self.opponent_inventory.get_inventory_dict()
                 }
-                action_string = get_opponent_bot_action(swapped_state, self.game_archive)
+                try:
+                    action_string = self.get_player2_action(swapped_state, self.game_archive)
+                except:
+                    action_string = ""  # Skip the turn if the bot returns an error
             else:
                 action_string = get_opponent_bot_action(game_state, self.game_archive)
 

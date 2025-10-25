@@ -16,10 +16,9 @@ def get_bot_action(current_game_state, game_archive):
     
     # Simple Logic:
     # 1. If HP is low and has a Potion, heal.
-    if player_hp < 70 and inventory.get("Potion", 0) > 0:
+    if player_hp < 100 and inventory.get("Potion", 0) > 0:
         return "Use Potion"
-    elif player_hp < 50 and inventory.get("Potion", 0) == 0 and inventory.get("Elixir", 0) > 0:
-        return "Use Elixir"
+
     # 2. If opponent is low HP and we have a bomb, finish them!
     if current_game_state['opponent']['hp'] < 45 and inventory.get("Bomb", 0) > 0:
         return "Use Bomb"

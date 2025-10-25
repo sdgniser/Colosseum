@@ -11,7 +11,7 @@ from player2 import get_bot_class as get_opponent_bot_class
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 FPS = 60
-AI_UPDATE_INTERVAL = 0.75 # Seconds between AI actions
+AI_UPDATE_INTERVAL = 0.1 # Seconds between AI actions
 
 def run_game():
     """Initializes Pygame and runs the main game loop, handling different game modes."""
