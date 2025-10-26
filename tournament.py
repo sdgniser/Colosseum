@@ -7,6 +7,7 @@ import numpy as np
 from pandas import read_csv
 from game_engine import GameEngine
 
+NUM_OF_GAMES = 64
 
 def run_headless_ai_vs_ai(player1_class, player2_class, get_player1_action, get_player2_action):
     """Run AI vs AI without graphics and return winner"""
@@ -39,7 +40,7 @@ def play(player1, player2):
     get_player2_action = getattr(player2mod, "get_bot_action")
     get_player2_class = getattr(player2mod, "get_bot_class")
     results = []
-    for i in range(64):  # Run multiple games
+    for i in range(NUM_OF_GAMES):  # Run multiple games
         player_class_num = get_player1_class()
         opponent_class_num = get_player2_class()
         if player_class_num not in range(3):
@@ -114,7 +115,7 @@ def print_ranking_table(teams, results):
     print("\nFINAL RANKINGS:")
     print("-" * 40)
     for rank, (team_idx, team_name, wins) in enumerate(rankings, 1):
-        print(f"{rank}. {team_name}: {wins} wins with a {100* wins/( 512*2*( len(names)-1 ) ):.2f}% win rate")
+        print(f"{rank}. {team_name}: {wins} wins with a {100* wins/( NUM_OF_GAMES*2*( len(names)-1 ) ):.2f}% win rate")
 
     return rankings, results
 
